@@ -116,8 +116,8 @@ function Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
                 x2 = x2 + cont2.xOffset;
                 y2 = y2 + cont2.yOffset;
             end
-            xDelta = x2 - x1;
-            yDelta = y2 - y1;
+            xDelta = (x2 or 0) - (x1 or 0); -- For Alliance in Ragefire Chasm on twow errors here without the "or 0" update.
+            yDelta = (y2 or 0) - (y1 or 0); -- For Alliance in Ragefire Chasm on twow errors here without the "or 0" update.
         end
     end
     if ( xDelta and yDelta ) then
@@ -151,7 +151,7 @@ function Astrolabe:TranslateWorldMapPosition( C, Z, xPos, yPos, nC, nZ )
             xPos = xPos - zoneData.xOffset;
             yPos = yPos - zoneData.yOffset;
         end
-    elseif (C and nC) and (WorldMapSize[C].parentContinent == WorldMapSize[nC].parentContinent) then
+    elseif (C and nC) and (WorldMapSize[C] and WorldMapSize[nC]) and (WorldMapSize[C].parentContinent == WorldMapSize[nC].parentContinent) then -- Entering RFC as an ally on twow this errored without the edit.
         -- different continents, same world
         zoneData = WorldMapSize[C];
         local parentContinent = zoneData.parentContinent;
